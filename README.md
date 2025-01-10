@@ -1,0 +1,1 @@
+This is an assignment task by koinx, I successfully completed the three task. The website is live in this url: https://cryptotrack-n0y0.onrender.com. I used render to deploy my app. I named the app is CryptoTrack.
