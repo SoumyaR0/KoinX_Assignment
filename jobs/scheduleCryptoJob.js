@@ -30,7 +30,8 @@ const fetchCryptoData = async () => {
   }
 };
 
-cron.schedule("0 */2 * * *", async () => {
+const scheduleCryptoJob = () => {
+  cron.schedule("0 */2 * * *", async () => {
     try {
       console.log("Fetching cryptocurrency data...");
       const cryptoData = await fetchCryptoData();
@@ -54,10 +55,9 @@ cron.schedule("0 */2 * * *", async () => {
     } catch (error) {
       console.error("Error in cron job:", error.message, error.stack);
     }
-  },
-  {
+  }, {
     timezone: "Asia/Kolkata", // India Standard Time (IST)
-  }
-);
+  });
+};
 
 module.exports = scheduleCryptoJob;
