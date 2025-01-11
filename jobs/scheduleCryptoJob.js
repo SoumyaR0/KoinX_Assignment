@@ -30,29 +30,34 @@ const fetchCryptoData = async () => {
   }
 };
 
-const scheduleCryptoJob = () => {
-  // Run the job every 2 hours
-  cron.schedule("0 */2 * * *", async () => {
-    console.log("Fetching cryptocurrency data...");
+cron.schedule("0 */2 * * *", async () => {
+    try {
+      console.log("Fetching cryptocurrency data...");
+      const cryptoData = await fetchCryptoData();
 
-    const cryptoData = await fetchCryptoData();
-    if (cryptoData.length === 0) {
-      console.log("No data fetched.");
-      return;
-    }
-
-    for (const coin of cryptoData) {
-      try {
-        const newRecord = new Crypto({ ...coin });
-        await newRecord.save();
-        console.log(`Saved data for: ${coin.coinId}`);
-      } catch (error) {
-        console.error(`Error saving data for ${coin.coinId}:`, error.message);
+      if (cryptoData.length === 0) {
+        console.log("No data fetched.");
+        return;
       }
-    }
 
-    console.log("Cryptocurrency data updated.");
-  });
-};
+      for (const coin of cryptoData) {
+        try {
+          const newRecord = new Crypto({ ...coin });
+          await newRecord.save();
+          console.log(`Saved data for: ${coin.coinId}`);
+        } catch (error) {
+          console.error(`Error saving data for ${coin.coinId}:`, error.message);
+        }
+      }
+
+      console.log("Cryptocurrency data updated.");
+    } catch (error) {
+      console.error("Error in cron job:", error.message, error.stack);
+    }
+  },
+  {
+    timezone: "Asia/Kolkata", // India Standard Time (IST)
+  }
+);
 
 module.exports = scheduleCryptoJob;
