@@ -32,7 +32,7 @@ const fetchCryptoData = async () => {
 
 const scheduleCryptoJob = () => {
   // Run the job every 2 hours
-  cron.schedule(" */20 * * * * *", async () => {
+  cron.schedule(" */200 * * * * *", async () => {
     console.log("Fetching cryptocurrency data...");
 
     const cryptoData = await fetchCryptoData();
