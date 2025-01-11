@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const scheduleCryptoJob = require('./jobs/scheduleCryptoJob.js');
+const setupAgenda = require('./jobs/scheduleCryptoJob');
 const statsRouter = require('./routes/stats.js');
 const deviationRouter = require('./routes/deviation.js');
 const app = express();
@@ -26,7 +26,7 @@ app.get('/',(req,res)=>{
 app.use("/stats", statsRouter);
 app.use("/deviation", deviationRouter);
 
-scheduleCryptoJob();
+setupAgenda();
 
 app.listen(PORT, () => {
   console.log(`Server running`);
